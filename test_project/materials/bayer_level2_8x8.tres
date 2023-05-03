@@ -1,0 +1,57 @@
+[gd_resource type="ShaderMaterial" load_steps=2 format=3 uid="uid://bbelptr7hfods"]
+
+[sub_resource type="Shader" id="Shader_o0ys6"]
+code = "shader_type canvas_item;
+
+uniform vec4 light_color: source_color;
+uniform vec4 dark_color: source_color;
+
+uniform bool is_inverted;
+
+// normalized bayer matrix (threshold map)
+// LEVEL 2
+struct Array8 { float[8] col; };
+const Array8 m8c1 = Array8({0.0, 0.75, 0.1875, 0.9375, 0.046875, 0.796875, 0.234375, 0.984375});
+const Array8 m8c2 = Array8({0.5, 0.25, 0.6875, 0.4375, 0.546875, 0.296875, 0.734375, 0.484375});
+const Array8 m8c3 = Array8({0.125, 0.875, 0.0625, 0.8125, 0.171875, 0.921875, 0.109375, 0.859375});
+const Array8 m8c4 = Array8({0.625, 0.375, 0.5625, 0.3125, 0.671875, 0.421875, 0.609375, 0.359375});
+const Array8 m8c5 = Array8({0.03125, 0.78125, 0.21875, 0.96875, 0.015625, 0.765625, 0.203125, 0.953125});
+const Array8 m8c6 = Array8({0.53125, 0.28125, 0.71875, 0.46875, 0.515625, 0.265625, 0.703125, 0.453125});
+const Array8 m8c7 = Array8({0.15625, 0.90625, 0.09375, 0.84375, 0.140625, 0.890625, 0.078125, 0.828125});
+const Array8 m8c8 = Array8({0.65625, 0.40625, 0.59375, 0.34375, 0.640625, 0.390625, 0.578125, 0.328125});
+const Array8[8] BAYER_8x8 = {m8c1, m8c2, m8c3, m8c4, m8c5, m8c6, m8c7, m8c8};
+
+const float matrix_size = 8.0;
+
+float rand(vec2 uv) {
+    return fract(sin(dot(uv, vec2(12.9898,78.233))) * 43758.5453123);
+}
+
+void fragment() {
+	COLOR = texture(TEXTURE, UV);
+
+	// sRGB to RGB i guess...
+	vec3 linear_to_RGB = pow(COLOR.rgb, vec3(2.2));
+    COLOR.rgb = linear_to_RGB;
+
+    // LUMA coefficients
+	float gray = dot(COLOR.rgb, vec3(0.299, 0.587, 0.114));
+	COLOR.rgb = vec3(gray);
+	
+	vec2 bayer = mod(vec2(FRAGCOORD.xy), vec2(matrix_size));
+	vec3 new_color;
+	
+	if (is_inverted) {
+		new_color = step(1.0 - BAYER_8x8[int(bayer.x)].col[int(bayer.y)], vec3(gray));
+	} else {
+		new_color = step(BAYER_8x8[int(bayer.x)].col[int(bayer.y)], vec3(gray));
+	}
+	
+	COLOR.rgb = (new_color == vec3(1.0)) ? light_color.rgb : dark_color.rgb;
+}"
+
+[resource]
+shader = SubResource("Shader_o0ys6")
+shader_parameter/light_color = Color(1, 1, 1, 1)
+shader_parameter/dark_color = null
+shader_parameter/is_inverted = false

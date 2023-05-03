@@ -1,0 +1,26 @@
+[remap]
+
+importer="2d_array_texture"
+type="CompressedTexture2DArray"
+uid="uid://b3uyfsp4in821"
+path="res://.godot/imported/tiled_L_64.png-951e1c3105cf2addd2d4c7a24e3f6e3d.ctexarray"
+metadata={
+"vram_texture": false
+}
+
+[deps]
+
+source_file="res://materials/blue_noise/tiled_L_64.png"
+dest_files=["res://.godot/imported/tiled_L_64.png-951e1c3105cf2addd2d4c7a24e3f6e3d.ctexarray"]
+
+[params]
+
+compress/mode=0
+compress/high_quality=false
+compress/lossy_quality=0.7
+compress/hdr_compression=1
+compress/channel_pack=0
+mipmaps/generate=false
+mipmaps/limit=-1
+slices/horizontal=64
+slices/vertical=1

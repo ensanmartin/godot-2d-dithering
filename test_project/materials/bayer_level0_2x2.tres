@@ -1,0 +1,46 @@
+[gd_resource type="ShaderMaterial" load_steps=2 format=3 uid="uid://bjp0f48770hup"]
+
+[sub_resource type="Shader" id="Shader_2tfiw"]
+code = "shader_type canvas_item;
+
+uniform vec4 light_color: source_color;
+uniform vec4 dark_color: source_color;
+
+uniform bool is_inverted;
+
+// normalized bayer matrix (threshold maps)
+const mat2 BAYER_2x2 = mat2(vec2(0, 3), vec2(2, 1)) * mat2(0.25);
+const float matrix_size = 2.0;
+
+float rand(vec2 uv) {
+    return fract(sin(dot(uv, vec2(12.9898,78.233))) * 43758.5453123);
+}
+
+void fragment() {
+	COLOR = texture(TEXTURE, UV);
+
+	// sRGB to RGB i guess...
+	vec3 linear_to_RGB = pow(COLOR.rgb, vec3(2.2));
+    COLOR.rgb = linear_to_RGB;
+
+    // LUMA coefficients
+	float gray = dot(COLOR.rgb, vec3(0.299, 0.587, 0.114));
+	COLOR.rgb = vec3(gray);
+	
+	vec2 bayer = mod(vec2(FRAGCOORD.xy), vec2(matrix_size));
+	vec3 new_color;
+	
+	if (is_inverted) {
+		new_color = step(1.0 - BAYER_2x2[int(bayer.x)][int(bayer.y)], vec3(gray));
+	} else {
+		new_color = step(BAYER_2x2[int(bayer.x)][int(bayer.y)], vec3(gray));
+	}
+	
+	COLOR.rgb = (new_color == vec3(1.0)) ? light_color.rgb : dark_color.rgb;
+}"
+
+[resource]
+shader = SubResource("Shader_2tfiw")
+shader_parameter/light_color = Color(1, 1, 1, 1)
+shader_parameter/dark_color = Color(0, 0, 0, 1)
+shader_parameter/is_inverted = false

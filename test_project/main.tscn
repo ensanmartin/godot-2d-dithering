@@ -1,0 +1,39 @@
+[gd_scene load_steps=5 format=3 uid="uid://cp76swkxcu06c"]
+
+[ext_resource type="Texture2D" uid="uid://b1xswubh0nvah" path="res://images/dark.png" id="1_33tk2"]
+[ext_resource type="Material" path="res://materials/blue_noise/simplified_blue_noise.tres" id="1_p6mw5"]
+[ext_resource type="PackedScene" uid="uid://d3w3d8l3tknhq" path="res://window2.tscn" id="3_1pj5l"]
+[ext_resource type="PackedScene" uid="uid://mqhpym83cso1" path="res://window.tscn" id="3_b1xy3"]
+
+[node name="Main" type="Node2D"]
+
+[node name="Dark" type="Sprite2D" parent="."]
+texture_filter = 1
+material = ExtResource("1_p6mw5")
+texture = ExtResource("1_33tk2")
+centered = false
+
+[node name="Window2" parent="." instance=ExtResource("3_1pj5l")]
+initial_position = 0
+title = "White"
+position = Vector2i(200, 400)
+unresizable = true
+popup_window = false
+
+[node name="Light" parent="Window2" index="0"]
+material = ExtResource("1_p6mw5")
+
+[node name="Window" parent="." instance=ExtResource("3_b1xy3")]
+initial_position = 0
+title = "David"
+position = Vector2i(1400, 300)
+unresizable = true
+popup_window = false
+content_scale_mode = 2
+content_scale_aspect = 1
+
+[node name="David" parent="Window" index="0"]
+material = ExtResource("1_p6mw5")
+
+[editable path="Window2"]
+[editable path="Window"]

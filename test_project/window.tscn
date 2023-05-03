@@ -1,0 +1,12 @@
+[gd_scene load_steps=2 format=3 uid="uid://mqhpym83cso1"]
+
+[ext_resource type="Texture2D" uid="uid://bwr0eimatqd8o" path="res://images/david.png" id="3_jm65x"]
+
+[node name="Window" type="Window"]
+initial_position = 1
+size = Vector2i(180, 205)
+popup_window = true
+
+[node name="David" type="Sprite2D" parent="."]
+texture = ExtResource("3_jm65x")
+centered = false

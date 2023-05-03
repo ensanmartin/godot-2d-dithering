@@ -1,0 +1,20 @@
+[gd_resource type="ShaderMaterial" load_steps=2 format=3 uid="uid://ixs8ytrysnf5"]
+
+[sub_resource type="Shader" id="Shader_xhcme"]
+code = "shader_type canvas_item;
+
+void fragment() {
+	COLOR = texture(TEXTURE, UV);
+
+	// sRGB to RGB i guess...
+	vec3 linear_to_RGB = pow(COLOR.rgb, vec3(2.2));
+    COLOR.rgb = linear_to_RGB;
+
+    // LUMA coefficients
+	float gray = dot(COLOR.rgb, vec3(0.299, 0.587, 0.114));
+
+    COLOR.rgb = step(0.5, vec3(gray));
+}"
+
+[resource]
+shader = SubResource("Shader_xhcme")
