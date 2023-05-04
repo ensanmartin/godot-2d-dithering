@@ -1,6 +1,6 @@
 # 2D dithering shaders for Godot 4
 ## Introduction
-This is a small collection of ordered dithering 2D shaders for Godot 4, based on [Surma's article on Ditherpunk](https://surma.dev/things/ditherpunk/). Two-colored palettes are supported.
+A small collection of ordered dithering 2D shaders for Godot 4, based on [Surma's article on Ditherpunk](https://surma.dev/things/ditherpunk/). Two-colored palettes are supported.
 
 ## Demos
 Bayer Level 0 (Inverted)             |  Bayer Level 0 (Normal)             |  Bayer Level 0 (No sRGB to RGB conversion)
