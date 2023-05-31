@@ -26,7 +26,7 @@ Blue Noise                           |Blue Noise                           |  Bl
 ## Usage
 ### For 2D:
 1. Add the "materials" folder to your Godot project.
-2. Drag and drop the desired material into a Sprite node.
+2. Drag and drop the desired material onto a Sprite node.
 
 ### For 3D:
 1. Add the "materials" folder to your Godot project.
